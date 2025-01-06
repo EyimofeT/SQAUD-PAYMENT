@@ -39,4 +39,15 @@ app.use(`${base_route}merchant`,merchant_routes);
 app.use(`${base_route}settlement`,settlement_routes); 
 app.use(`${base_route}payment`,payment_routes);
 
+// Catch-all route for non-existing endpoints
+app.use((req, res) => {
+    return res.status(404).json({
+      code: 404,
+      response_code : "99",
+      status: "failed",
+      message: 'Endpoint not found',
+      error: "An Error Occured!",
+    });
+  });
+
 export default app;
