@@ -1,7 +1,7 @@
-const supertest = require('supertest');
-const httpStatus = require('http-status');
+import supertest from 'supertest';
+import httpStatus from 'http-status';
+import app from '../src/app';
 
-const app = require('../src/app');
 const request = supertest(app);
 
 describe('Basic', () => {
@@ -11,5 +11,4 @@ describe('Basic', () => {
     expect(response.status).toBe(httpStatus.OK);
     expect(response.body.message).toBe('It Works');
   });
-
 });

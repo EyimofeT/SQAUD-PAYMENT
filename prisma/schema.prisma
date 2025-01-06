@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model merchant {
+  id                          Int                           @id @default(autoincrement())
+  merchant_id                 String                        @unique
+  name                        String
+  email                       String                        @unique
+  balance                     Decimal                       @default(0.00)
+  card_transaction            card_transaction[]            @relation("merchant_card_transactions")
+  virtual_account_transaction virtual_account_transaction[] @relation("merchant_virtual_account_transactions")
+  payout                      payout[]                      @relation("merchant_payouts")
+  created_at                  DateTime                      @default(now())
+  updated_at                  DateTime                      @updatedAt
+}
+
+model card_transaction {
+  id                     Int      @id @default(autoincrement())
+  reference              String   @unique
+  amount                 Float
+  description            String
+  status                 String   @default("pending") // pending, success
+  fee                    Float
+  currency               String
+  card_holder_name       String
+  card_last_4            String
+  card_expiration_date   String
+  card_verification_code String
+  merchant_id            String
+  merchant               merchant @relation("merchant_card_transactions", fields: [merchant_id], references: [merchant_id])
+  created_at             DateTime @default(now())
+  updated_at             DateTime @updatedAt
+}
+
+model virtual_account_transaction {
+  id             Int      @id @default(autoincrement())
+  reference      String   @unique
+  amount         Float
+  description    String
+  status         String   @default("success") // settled instantly
+  fee            Float
+  currency       String
+  account_name   String
+  account_number String
+  bank_code      String
+  merchant_id    String
+  merchant       merchant @relation("merchant_virtual_account_transactions", fields: [merchant_id], references: [merchant_id])
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+}
+
+model payout {
+  id          Int      @id @default(autoincrement())
+  amount      Float
+  status      String   @default("pending") // pending, completed
+  merchant_id String
+  merchant    merchant @relation("merchant_payouts", fields: [merchant_id], references: [merchant_id])
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}

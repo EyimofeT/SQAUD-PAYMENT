@@ -1,12 +1,20 @@
-const express = require('express');
-const helmet = require('helmet');
-const xss = require('xss-clean');
-const v1Routes = require('./routes');
+import express from 'express';
+import helmet from 'helmet';
+import xss from 'xss-clean';
+import v1Routes from './routes.js';
+import morgan from "morgan";
+import { format_request_middleware } from './core/format_request_body.js';
+import merchant_routes from './apis/merchant/routes.js'
+import settlement_routes from './apis/settlement/routes.js'
+import payment_routes from './apis/payment/routes.js'
 
 const app = express();
 
 // set security HTTP headers
 app.use(helmet());
+
+// Logging middleware to log to CLI
+app.use(morgan("combined"));
 
 // parse json request body
 app.use(express.json({ limit: '5mb' }));
@@ -23,6 +31,12 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use(`/v1/`, v1Routes); // routes
+app.use(format_request_middleware)
 
-module.exports = app;
+let base_route = `/v1/`
+app.use(base_route, v1Routes)
+app.use(`${base_route}merchant`,merchant_routes);
+app.use(`${base_route}settlement`,settlement_routes); 
+app.use(`${base_route}payment`,payment_routes);
+
+export default app;

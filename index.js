@@ -1,7 +1,13 @@
-const app = require('./src/app');
-require('dotenv').config();
+import app from './src/app.js';
+import { custom_error } from './src/core/customerror.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const port = process.env.port || 3000;
+global.custom_error = custom_error
+
+
+
+const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
     console.info(`Listening to port ${port}`);
 });
