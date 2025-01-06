@@ -55,7 +55,7 @@ export const payout = async (req, res) => {
             data: { ...merchant, payout },
         });
     } catch (err) {
-        return res.status(200).json({
+        return res.status(400).json({
             code: 400,
             response_code: err.code,
             status: "failed",
@@ -89,7 +89,7 @@ export const view_merchant_payment = async (req, res) => {
             data: { merchant, available: total_settled - total_payout, completed_settlement: total_settled, pending_settlement: total_pending, total_payout },
         });
     } catch (err) {
-        return res.status(200).json({
+        return res.status(400).json({
             code: 400,
             response_code: err.code,
             status: "failed",

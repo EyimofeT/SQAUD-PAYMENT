@@ -13,7 +13,7 @@ export const view_merchant_payment_middleware = async (req, res, next) => {
         next();
     }
     catch (err) {
-        return res.status(200).json({
+        return res.status(400).json({
             code: 400,
             response_code: err.code,
             status: "failed",
@@ -41,7 +41,7 @@ export const payout_middleware = async (req, res, next) => {
         next();
     }
     catch (err) {
-        return res.status(200).json({
+        return res.status(400).json({
             code: 400,
             response_code: err.code,
             status: "failed",

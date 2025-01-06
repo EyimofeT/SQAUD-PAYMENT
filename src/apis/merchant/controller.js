@@ -24,7 +24,7 @@ export const create_merchant = async (req, res) => {
             data: { ...return_object },
         });
     } catch (err) {
-        return res.status(200).json({
+        return res.status(400).json({
             code: 400, 
             response_code: err.code,
             status: "failed",
@@ -50,7 +50,7 @@ export const get_merchant = async (req, res) => {
             data: merchant,
         });
     } catch (err) {
-        return res.status(200).json({
+        return res.status(400).json({
             code: 400, 
             response_code: err.code,
             status: "failed",

@@ -20,7 +20,7 @@ export const virtual_account_settlement_middleware = async (req, res, next) => {
     next();
   }
   catch (err) {
-    return res.status(200).json({
+    return res.status(400).json({
       code: 400,
       response_code: err.code,
       status: "failed",
@@ -52,7 +52,7 @@ export const create_card_settlement_middleware = async (req, res, next) => {
     next();
   }
   catch (err) {
-    return res.status(200).json({
+    return res.status(400).json({
       code: 400,
       response_code: err.code,
       status: "failed",
@@ -64,11 +64,6 @@ export const create_card_settlement_middleware = async (req, res, next) => {
 
 export const update_card_settlement_middleware = async (req, res, next) => {
   try {
-
-    // * Transaction amount. Eg: `'5000'`
-    // * Transaction reference. Eg: `'Bweh-4b39-2nj4-432'` (Matching a existing card transaction)
-    // * Card number. Eg: `'5555 5555 5555 4444'`
-    // * Currency. Eg: `'NGN'`
 
     let { value, card_number, currency, reference } = req.body;
     if (!value) throw new custom_error("value required", "02")
@@ -91,7 +86,7 @@ export const update_card_settlement_middleware = async (req, res, next) => {
     next();
   }
   catch (err) {
-    return res.status(200).json({
+    return res.status(400).json({
       code: 400,
       response_code: err.code,
       status: "failed",

@@ -61,7 +61,7 @@ export const virtual_account_settlement = async (req, res) => {
             data: { ...settlement_data },
         });
     } catch (err) {
-        return res.status(200).json({
+        return res.status(400).json({
             code: 400,
             response_code: err.code,
             status: "failed",
@@ -115,7 +115,7 @@ export const create_card_settlement = async (req, res) => {
             data: { ...settlement_data },
         });
     } catch (err) {
-        return res.status(200).json({
+        return res.status(400).json({
             code: 400,
             response_code: err.code,
             status: "failed",
@@ -179,7 +179,7 @@ export const update_card_settlement = async (req, res) => {
             data: { ...settlement_data },
         });
     } catch (err) {
-        return res.status(200).json({
+        return res.status(400).json({
             code: 400,
             response_code: err.code,
             status: "failed",
